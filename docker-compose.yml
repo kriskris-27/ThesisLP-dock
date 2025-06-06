@@ -1,23 +1,16 @@
-version: '3.8'
-
 services:
   frontend:
     build:
       context: ./frontend-1
       dockerfile: Dockerfile
     ports:
-      - "5173:80"  # Nginx serves on port 80 internally, mapped to 5173 for your original setup
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:5001
+    env_file:
+      - ./.env
     depends_on:
       - backend
-    networks:
-      - app-network
-
-  mongo:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
     networks:
       - app-network
 
@@ -27,10 +20,29 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5001:5001"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - MONGO_URI=${MONGO_URI:-mongodb://mongo:27017/learning-platform}
+      - JWT_SECRET=${JWT_SECRET}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_CALLBACK_URL=${GOOGLE_CALLBACK_URL}
+      - FRONTEND_ORIGIN=${FRONTEND_ORIGIN:-http://localhost:3000}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+    env_file:
+      - ./.env
     depends_on:
       - mongo
-    env_file:
-      - ./.env  # Root level .env
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
     networks:
       - app-network
 

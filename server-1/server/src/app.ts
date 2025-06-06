@@ -1,6 +1,7 @@
 import  express  from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import './config/passport';
@@ -9,7 +10,8 @@ import authRoutes from './routes/authRoutes';
 import aiRoutes from './routes/aiRoutes';
 import courseRoutes from './routes/courseRoutes';
 
-dotenv.config();
+// Load environment variables from the server directory
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
 

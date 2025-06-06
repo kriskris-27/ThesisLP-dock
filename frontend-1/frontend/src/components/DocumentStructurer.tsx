@@ -91,10 +91,10 @@ export default function DocumentStructurer() {
                     rawText: aiInput.rawText
                 });
             }
-
+            
             if (response.data.data) {
                 setStructuredDoc(response.data.data);
-                if (!aiInput.isAddingToExisting) {
+                if (!aiInput.isAddingToExisting && response.data.data._id) {
                     setCurrentDocId(response.data.data._id);
                 }
                 // Reset AI input
@@ -132,7 +132,7 @@ export default function DocumentStructurer() {
             rawText: '',
             targetModuleIndex: moduleIndex ?? null,
             isAddingToExisting: true,
-            selectedCourseId: null
+            selectedCourseId: currentDocId
         });
     };
 
@@ -321,11 +321,11 @@ export default function DocumentStructurer() {
     const handleNewDocument = () => {
         setStructuredDoc(null);
         setCurrentDocId(null);
-        setManualInput({
-            moduleTitle: '',
-            lessonTitle: '',
-            content: '',
-            example: ''
+        setAiInput({
+            rawText: '',
+            targetModuleIndex: null,
+            isAddingToExisting: false,
+            selectedCourseId: null
         });
         setError(null);
     };
@@ -469,7 +469,8 @@ export default function DocumentStructurer() {
                                     onClick={() => setAiInput({
                                         rawText: '',
                                         targetModuleIndex: null,
-                                        isAddingToExisting: false
+                                        isAddingToExisting: false,
+                                        selectedCourseId: null
                                     })}
                                     className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700"
                                 >

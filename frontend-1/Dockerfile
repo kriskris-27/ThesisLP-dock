@@ -1,24 +1,19 @@
-# Build stage
-FROM node:20-alpine as build
+FROM node:20-alpine
 
 WORKDIR /usr/src/app
 
+# Copy package files from frontend directory
 COPY frontend/package*.json ./
 RUN npm install
 
-# Copy source code
-COPY frontend/ ./
+# Copy source code from frontend directory
+COPY frontend/ .
 
-# Copy env from root manually (make sure it has VITE_ vars)
-COPY ../.env .env
-
+# Build the app
 RUN npm run build
 
-# Production stage
-FROM nginx:alpine
+# Install serve to run the app
+RUN npm install -g serve
 
-COPY --from=build /usr/src/app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 3000
+CMD ["serve", "-s", "dist", "-l", "3000"]

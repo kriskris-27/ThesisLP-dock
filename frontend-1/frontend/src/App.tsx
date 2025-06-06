@@ -13,7 +13,7 @@ function App() {
     <Router>
       <Routes>
         {/* Public Routes */}
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/oauth-success" element={<OAuthSuccess />} />
 
@@ -24,7 +24,7 @@ function App() {
           
           {/* Student Routes */}
           <Route path="/sdash" element={<StudentDashboard />} />
-          
+           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/doc-struc" element={<DocumentStructurer />} />

@@ -3,8 +3,8 @@ import axios from 'axios';
 import { config } from 'dotenv';
 import path from 'path';
 
-// Load environment variables from the root directory (two levels up from server directory)
-config({ path: path.resolve(__dirname, '../../../../.env') });
+// Load environment variables from the server directory
+config({ path: path.resolve(__dirname, '../../.env') });
 
 const API_KEY = process.env.OPENROUTER_API_KEY;
 const BASE_URL = 'https://openrouter.ai/api/v1';

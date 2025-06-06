@@ -1,6 +1,10 @@
 import passport from "passport";
 import dotenv from 'dotenv';
-dotenv.config();
+import path from 'path';
+
+// Load environment variables from the server directory
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import User from '../models/User';
 
